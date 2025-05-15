@@ -1,26 +1,68 @@
-package edu.miracosta.cs112.lab07;//package name here depending on your IDE
+package edu.miracosta.cs112.lab07;
 
-import javafx.application.Application;  //abstract class used for JavaFX GUI's
-import javafx.stage.Stage;              //class for GUI window
-import javafx.scene.Scene;              //class for specific view in GUI window
-import javafx.scene.layout.VBox;        //class for layout pane, organized top-to-bottom
-import javafx.scene.control.Label;      //class for label component
-import javafx.scene.control.Button;     //class for button component
-import javafx.event.EventHandler;       //interface for handling events
-import javafx.event.ActionEvent;        //class for type of event for action (like button or key pressed)
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 
-public class HelloApplication extends Application  { //inheriting core functionality + this class will handle events
-    /*** GUI COMPONENTS ***/
-    // TODO: follow step 25 in README.md to create reference variables
+public class HelloApplication extends Application implements EventHandler<ActionEvent> {
 
-    /*** DRIVER main ***/
+    // GUI Components
+    private Label label1;
+    private Label label2;
+    private Button button1;
+    private Button button2;
+    private TextField textField;
+    private int count = 0;
+
     public static void main(String[] args) {
-        launch(args); //method from Application class, must be called to setup javafx application
+        launch(args);
     }
 
-    // TODO: follow steps 2-9 in README.md to create a start method
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Hello GUI: Your Name");
 
-    // TODO: follow steps 10-21 in README.md to add objects to your layout (inside start)
+        // Labels
+        label1 = new Label("Hello GUI World");
+        label2 = new Label("Click count: 0");
 
-    // TODO: follow steps 22-34 in README.md to create an event handler
+        // Buttons
+        button1 = new Button("Set Text");
+        button2 = new Button("Click Me");
+
+        // Button functionality
+        button1.setOnAction(this);
+        button2.setOnAction(this);
+
+        // Text Field
+        textField = new TextField();
+        textField.setPromptText("Enter text here");
+
+        // Layout
+        VBox layout = new VBox(10); // Spacing between elements
+        layout.getChildren().addAll(label1, textField, label2, button1, button2);
+
+        Scene scene = new Scene(layout, 300, 300);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    @Override
+    public void handle(ActionEvent actionEvent) {
+        if (actionEvent.getSource() == button1) {
+            String userInput = textField.getText();
+            label1.setText(userInput);
+        } else if (actionEvent.getSource() == button2) {
+            count++;
+            label2.setText("Click count: " + count);
+        }
+    }
 }
